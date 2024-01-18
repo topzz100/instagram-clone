@@ -1,0 +1,324 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+    <main class="">
+      <section class="flex">
+        {% include 'base/sidebar.html' %}
+        <div class="flex-1 flex ms-64">
+          <!-- <p>center</p> -->
+          <div class="basis-2/3">
+            <div class="p-16">
+                <div class="stories flex space-x-3">
+                    <div class="flex flex-col items-center">
+                        <div class="w-[70px] h-[70px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[70px] h-[70px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[70px] h-[70px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[70px] h-[70px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[70px] h-[70px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    
+                </div>
+                <div class="posts-container p-14">
+                    {% for post in posts %}
+                    <div id="post" class="post mt-4 w-full border-b border-gray-700">
+                        <div class="top flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-[50px] h-[50px] border-[3px] border-red-500 p-[3px] rounded-full">
+                                    <img src="{{post.user.profile.profile_img.url}}" alt="" class="h-full w-full rounded-full object-cover">
+                                </div>
+                                <div class="flex-col">
+                                    {% if post.user.username == request.user.username%}
+                                    <a href="{% url 'profile' %}" class="block font-semibold text-lg ">{{post.user.username}}</a>
+                                    {% else %}
+                                    <a href="{% url 'user_profile' post.user.username %}" class="block font-semibold text-lg ">{{post.user.username}}</a>
+                                    {% endif %}
+                                    <!-- <span class="block text-base ">Best Men's Goals from minute 1 to 101</span> -->
+                                    <span class="block text-base ">
+                                        {{post.created_at|naturaltime}}
+                                        <!-- {{post.created_at|timesince}} -->
+
+                                    </span> 
+                                </div>
+                            </div>
+                            <span>
+                                <i class="fa-solid fa-ellipsis" style="color: white; font-size: 24px;"></i>
+                            </span>
+                        </div>
+                        <div class="border border-gray-900 w-full h-[650px] mt-2 rounded relative">
+                            <img src="{{post.postImg.url}}" alt="" class="h-full w-full rounded object-contain">
+                            <div class="absolute bottom-4 left-4 w-8 h-8 bg-black/50 rounded-full flex justify-center items-center">
+                                <i class="fa-solid fa-user" style="color: white; font-size: 16px;"></i>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex space-x-5" >
+                                <!-- <a href="/like?post_id={{post.id}}"> -->
+                                    <!-- {% if post.id in liked_posts %}
+                                    <i class="fa-solid fa-heart" style=" font-size: 24px;" id="like"></i>
+                                    {% else %}
+                                    <i class="fa-regular fa-heart" style="color: white; font-size: 24px;" id="like"></i>
+                                    {% endif %} -->
+                                    <i class="{% if post.id in liked_posts %}fa-solid  {% else %} fa-regular {% endif %} fa-heart" style=" font-size: 24px;" id="like" data-postId="{{ post.id }}"></i>
+
+                                <!-- </a> -->
+                                <i class="fa-regular fa-comment" style="color: white; font-size: 24px;"></i>
+                                <i class="fa-regular fa-share-from-square" style="color: white; font-size: 24px;"></i>
+                            </div>
+                            <span>
+                                <i class="fa-regular fa-bookmark" style="color: white; font-size: 24px;"></i>
+                            </span>
+                            
+                        </div>
+                        <div >
+                            {% if post.no_of_likes == 0 %}
+                            <p class="mt-3" id="likes-no-{{post.id}}">no likes</p>
+                            {% elif post.no_of_likes == 1 %}
+                            <p class="mt-3" id="likes-no-{{post.id}}">1 like</p>
+                            {% else %}
+                            <p class="mt-3" id="likes-no-{{post.id}}">{{post.no_of_likes}} like</p>
+                            {% endif %}
+                            <p class="mt-3">{{post.desc}}</p>
+                            <div class="flex space-x-2">
+
+                                {% for tag in post.tags.all %}
+                                <span>#{{tag.title}}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div id="add-comment" data-postId="{{ post.id }}" class=" w-100 mt-3 pb-5">
+                            <div id="comment-list" class="comment-list max-h-[100px] overflow-y-auto scroller space-y-3">
+                                {% for comment in post.comment.all %}
+                                <div class="flex items-start space-x-2">
+                          
+                                    <img src="{{comment.user.profile.profile_img.url}}" alt="" class="h-[40px] w-[40px] rounded-full">
+                                
+                                    <div class=" flex-1">
+                                        <div>
+                                            <span class="text-sm me-2 font-bold">{{comment.user.username}}</span>
+                                            <span class="text-xs text-gray-300">{{comment.comment}}</span>
+                                        </div>
+                                        <span class="text-xs text-gray-500">{{comment.created_at|timesince}}</span>
+                                    </div>
+        
+                                </div>
+                                {% endfor %} 
+                                <!-- <div class="flex items-center space-x-2">
+                          
+                                    <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full">
+                                
+                                    <div class=" flex-1">
+                                        <span class="text-sm me-6">junior</span>
+                                        <span class="text-xs text-gray-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores consectetur blanditiis minima alias? Aliquam, necessitatibus.</span>
+                                    </div>
+        
+                                </div> -->
+                                    <!-- <div class="flex items-center space-x-2">
+                              
+                                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full">
+                                    
+                                        <div class=" flex-1">
+                                            <span class="text-sm me-6">junior</span>
+                                            <span class="text-xs text-gray-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores consectetur blanditiis minima alias? Aliquam, necessitatibus.</span>
+                                        </div>
+            
+                                    </div> -->
+                                  
+                                        <!-- <div class="flex items-center space-x-2">
+                                  
+                                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full">
+                                        
+                                            <div class=" flex-1">
+                                                <span class="text-sm me-6">junior</span>
+                                                <span class="text-xs text-gray-500">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores consectetur blanditiis minima alias? Aliquam, necessitatibus.</span>
+                                            </div>
+                
+                                        </div> -->
+
+                            </div>
+                            <form id="comment-form" class=" w-100 flex items-center mt-2">
+                                {% csrf_token %}
+                                <input placeholder="Add a comment..." id="comment-input" type="text" class="flex-1 bg-inherit border-none outline-none me-3">
+                                <i class="fa-regular fa-face-smile " style="color: white; font-size: 16px;"></i>
+                                <button type="submit" class="hidden">Submit</button>
+
+                            </form>
+
+
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                   
+                </div>
+            </div>
+          </div>
+          <div class="basis-1/3 pe-16 ps-8 py-16">
+            <div>
+                <div class="flex justify-between">
+                    <h4 class="text-gray-500 font-semibold">Suggested for you</h4>
+                    <h4 class="font-semibold">See All</h4>
+                </div>
+                
+                <div>
+                    {% for profile in profiles %}
+                    <a href="{% url 'user_profile' profile.user.username %}" class="flex justify-between items-center mt-3">
+                        <div class="flex items-center space-x-2">
+                          
+                                <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[50px] w-[50px] rounded-full">
+                          
+                            <div class="flex flex-col">
+                                <span class="text-sm">{{profile.user.username}}</span>
+                                <span class="text-xs text-gray-500">{{profile.full_name}}</span>
+                            </div>
+
+                        </div>
+                        <div class="text-blue-500 text-xs">
+                            follow
+                        </div>
+
+                    </a>
+                    {% endfor %}
+                    <!-- <div class="flex justify-between items-center mt-3">
+                        <div class="flex items-center space-x-2">
+                          
+                                <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[50px] w-[50px] rounded-full">
+                          
+                            <div class="flex flex-col">
+                                <span class="text-sm">jonnie_last</span>
+                                <span class="text-xs text-gray-500">Lorem, ipsum dolor.</span>
+                            </div>
+
+                        </div>
+                        <div class="text-blue-500 text-xs">
+                            follow
+                        </div>
+
+                    </div>
+                    <div class="flex justify-between items-center mt-3">
+                        <div class="flex items-center space-x-2">
+                          
+                                <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[50px] w-[50px] rounded-full">
+                          
+                            <div class="flex flex-col">
+                                <span class="text-sm">jonnie_last</span>
+                                <span class="text-xs text-gray-500">Lorem, ipsum dolor.</span>
+                            </div>
+
+                        </div>
+                        <div class="text-blue-500 text-xs">
+                            follow
+                        </div>
+
+                    </div>
+                    <div class="flex justify-between items-center mt-3">
+                        <div class="flex items-center space-x-2">
+                          
+                                <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[50px] w-[50px] rounded-full">
+                          
+                            <div class="flex flex-col">
+                                <span class="text-sm">jonnie_last</span>
+                                <span class="text-xs text-gray-500">Lorem, ipsum dolor.</span>
+                            </div>
+
+                        </div>
+                        <div class="text-blue-500 text-xs">
+                            follow
+                        </div>
+
+                    </div> -->
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+      {% include 'base/addPost.html' %}
+     
+    </main>
+    <script>
+        const forms = document.querySelectorAll("#add-comment")
+
+
+        forms.forEach((form) => {
+            const myForm = form.querySelector('#comment-form')
+            const postId = form.getAttribute("data-postId")
+            const commentInput = myForm.querySelector('#comment-input');
+            const commentList = form.querySelector('#comment-list') 
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                myForm.addEventListener('submit', async(e) => {
+
+                e.preventDefault()
+                console.log(commentInput.value, postId)
+                try{
+                    const res = await axios.post('comments/add/',
+                    {postId, comment: commentInput.value, },
+                        {headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                        }}
+                        )
+                        const commentData = res.data.comment
+                        const new_comment =`<div class="flex items-start space-x-2">
+                          
+                            <img src=${commentData.profile_img} alt="" class="h-[40px] w-[40px] rounded-full">
+                        
+                            <div class=" flex-1">
+                                <div>
+                                    <span class="text-sm me-2 font-bold">${commentData.username}</span>
+                                    <span class="text-xs text-gray-300">${commentData.comment}</span>
+                                </div>
+                               
+                                <span class="text-xs text-gray-500">${commentData.created_at}</span>
+                            </div>
+
+                        </div>`
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = new_comment;
+                        const new_comment_node = tempDiv.firstChild;
+
+                    commentList.insertBefore(new_comment_node, commentList.firstChild);
+                        myForm.reset()
+                    console.log(commentData, "res")
+                }catch(err){
+                    console.log(err)
+                }
+            })
+
+            // form.addEventListener('submit', function(e) {
+            //     e.preventDefault()
+            //     console.log(e)
+            // })
+        })
+        // myForm.addEventListener('submit', (e) => {
+        //     e.preventDefault()
+        //     console.log("hello")
+        // })
+    </script>
+
+{% endblock %}

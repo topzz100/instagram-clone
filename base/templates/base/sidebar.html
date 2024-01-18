@@ -1,0 +1,56 @@
+{% load static %}
+<div class="w-64 border-gray-400 border-e h-screen fixed top-0 left-0">
+    <div class="px-4 py-7">
+
+      <img src="{% static '/images/insta.png' %}" alt="" class="w-34 px-3 ">
+      <ul class="mt-5">
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i class="fa-solid fa-house " style="color: white; font-size: 22px;"></i>
+              <a href="{% url 'homePage' %}" class=" ms-3">Home</a>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i class="fa-solid fa-magnifying-glass"style="color: white; font-size: 22px;"></i>
+              <span class=" ms-3">Search</span>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i class="fa-regular fa-eye" style="color: white; font-size: 22px;"></i>
+              <span class=" ms-3">Explore</span>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i class="fa-solid fa-clapperboard" style="color: white; font-size: 22px;"></i>
+              <span class=" ms-3">Reels</span>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i class="fa-regular fa-envelope" style="color: white; font-size: 22px;"></i>
+              <span class=" ms-3">Messages</span>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i class="fa-regular fa-heart" style="color: white; font-size: 22px;"></i>
+              <span class=" ms-3">Notifications</span>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg" id="create">
+              <i class="fa-regular fa-square-plus" style="color: white; font-size: 22px;"></i>
+              <span class=" ms-3">Create</span>
+          </li>
+          <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg">
+              <i  class="fa-regular fa-user" style="color: white; font-size: 22px;"></i>
+              <a href="{% url 'profile' %}" class=" ms-3">Profile</a>
+          </li>
+          {% if request.user.is_authenticated  %}
+              <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg"><a href="{% url 'logout' %}">Log out</a></li>
+          {% else %}
+              <li style="font-size: 18px;" class="p-3 mb-2 hover:bg-gray-500 rounded-lg"><a href="{% url 'login' %}">Log in</a></li>
+          {% endif %}
+
+          <!-- <li style="font-size: 18px;">
+              <i class="fa-solid fa-house " style="color: white; font-size: 22px;"></i>
+              <span class="font-bold ms-3">Home</span>
+          </li> -->
+      </ul>
+
+      <div class="p-3 mt-4 flex items-center hover:bg-gray-500 rounded-lg">
+          <i class="fa-solid fa-bars" style="color: white; font-size: 24px;"></i>
+          <span style="font-size: 18px;" class=" ms-3">More</span>
+      </div>
+    </div>
+  </div>

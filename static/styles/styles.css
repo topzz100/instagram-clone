@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    color: white;
+    background-color: black;
+  }
+
+  .scroller {
+    /* scrollbar-width: thin; */
+    /* scrollbar-width: 5px;
+    scrollbar-color: #4f4f4f #e5e5e5; */
+    -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  }
+  .scroller::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* WebKit-based browsers (like Chrome and Safari) */
+  /* .scroller::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .scroller::-webkit-scrollbar-thumb {
+    background-color: #404040;
+    border-radius: 5px
+  }
+  
+  .scroller::-webkit-scrollbar-track {
+    background-color: #6e6c6c;
+    
+  } */

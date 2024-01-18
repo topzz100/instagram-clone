@@ -1,0 +1,58 @@
+{% load static %}
+
+<div class="modal-profile absolute top-0 left-0 w-full h-screen flex justify-center items-center bg-gray-600/30" id="update_profile_modal">
+    <div class="w-[500px] h-[85%] bg-black p-6 overflow-y-auto relative">
+       
+       <h4 class="mb-3">Edit Profile</h4>
+       <span class="absolute top-2 right-5">
+           <a class="fa-solid fa-xmark" id="closeModalButton" class="close" hx-swap="outerHTML"   href="{% url 'profile' %}"></a>
+       </span>
+       <!-- <form action="{% url 'profile_modal' %}" method="POST" enctype="multipart/form-data"> -->
+        <form action="{% url 'profile_modal' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="flex items-center space-x-4">
+                <div>
+                    <label for="addProfile">
+                        <div class="h-[40px] w-[40px] rounded-full me-3 relative">
+                            <img src="{{profile_form.profile_img.url}}" alt="" class="h-full w-full rounded-full">
+                            <div class="absolute bottom-0 left-0 right-0 top-0 h-[20px] w-[20px] bg-black/50 m-auto rounded-full flex justify-center items-center">
+                                <i class="fa-solid fa-plus" style="color: white; font-size: 14px;"></i>
+                            </div>
+                        </div>
+                    </label>
+                    <input type="file" name="profile_img" id="addProfile" class="hidden">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-semibold">henrypolls</span>
+                    <span class="text-blue-400 font-semibold">Change profile picture</span>
+                </div>
+            </div>
+            <div class="flex flex-col space-y-2 mt-4">
+                <span>Full name</span>
+                <input type="text" name="full_name" placeholder="Full name" class=" text-xs w-full h-12 bg-inherit border border-[#555555] px-3 mt-2" value="{{profile_form.full_name}}"/>
+            </div>
+            <!-- <div class="flex flex-col space-y-2  mt-4">
+                <span>username</span>
+                <input type="text" name="username" value="{{request.user.username}}" placeholder="username" class=" text-xs w-full h-12 bg-inherit border border-[#555555] px-3 mt-2">
+            </div> -->
+            <!-- <div class="flex flex-col space-y-2  mt-4">
+                <span>Email</span>
+                <input type="email" name="email" value="{{request.user.email}}" placeholder="Email" class=" text-xs w-full h-12 bg-inherit border border-[#555555] px-3 mt-2">
+            </div> -->
+            <div class="flex flex-col space-y-2  mt-4">
+                <span>Bio</span>
+                <textarea name="bio"  id="" class="w-full bg-black p-2 text-white border border-gray-400 h-16 rounded" placeholder="Write your bio">{{profile_form.bio}}</textarea>
+            </div>
+            <div class="flex flex-col space-y-2  mt-4">
+                <span>Gender</span>
+              
+                <select name="gender" value="{{profile_form.gender}}" name="gneder" id=""class=" text-xs w-full h-12 bg-inherit border border-[#555555] px-3 mt-2">
+                    <option value="male" {% if profile_form.gender == "male" %} selected{% endif %} class="bg-black py-2">Male</option>
+                    <option value="female" {% if profile_form.gender == "female" %} selected{% endif %}  class="bg-black py-2">Female</option>
+                </select>
+
+            </div>
+            <button type="submit" class="w-full rounded-xl bg-blue-400 h-10 font-bold mt-6">Save</button>
+       </form>
+    </div>
+  </div>

@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.9.2/sass.min.js"
+      integrity="sha512-mA5b7w9mZvGLWgjIqp9KhWNzkkZ/H3gC4Ua6GOn9m/xl1UF4ghH8GsriKvAYxLsxoKvn6NdebW7kZ6iGB3CGSg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+
+    {% block content %}
+    
+    {% endblock %}
+    
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  
+
+    <!-- <script>
+      const follow = document.querySelector("#follow")
+      follow.addEventListener("click", () => {
+        console.log("clicked")
+      })
+    </script> -->
+    
+    <script>
+      const likes = document.querySelectorAll("#like")
+      const posts = document.querySelectorAll("#post")
+
+      // posts.forEach((post) => {
+      //   post.querySelector('')
+      // })
+       
+
+      //  follow.addEventListener("click", () => {
+      //   console.log("clicked>>>>>")
+      //   // const followed = follow.getAttribute("data-followed")
+      //   // try{
+      //   //   const res = await axios.get(`/follow-user?followed_user=${followed}`)
+      //   //   console.log(res.data, "follow")
+      //   // }catch(err){
+      //   //   console.log(err)
+      //   // }
+      //  })
+
+//  posts.forEach((post) => {
+//     // post.addEventListener("click", () =>{
+        
+//     //     console.log("hello")
+//     // })
+//     post.getElementById("addComment").addEventListener("submit", () => {
+
+//     })
+// })
+//const commentForms = document.querySelectorAll('#comment-form');
+// document.addEventListener('DOMContentLoaded', function () {
+//   const commentForms = document.querySelectorAll('.add-comment-form');
+//   commentForms.forEach((form) => {
+//     //console.log("hello")
+//     form.addEventListener('submit', (e) => {
+//       e.preventDefault()
+//       const commentInput = form.querySelector('.comment-input');
+//       const commentText = commentInput.value;
+//       console.log(commentText)
+//     })
+//   })
+
+// })
+
+
+  
+     
+  likes.forEach((like) => {
+    like.addEventListener("click", async() => {
+      const postId = like.getAttribute("data-postId")
+      const likesNumber = document.getElementById(`likes-no-${postId}`)
+        try{
+          const res = await axios.get(`like-post?post_id=${postId}`)
+
+          console.log(res.data)
+
+          if(!res.data.login){
+            window.location.href = '/login';
+            return
+          }
+          if(!res.data.liked){
+            like.classList.remove("fa-solid")
+            like.classList.add("fa-regular")
+          } else {
+            like.classList.add("fa-solid")
+            like.classList.remove("fa-regular")
+          }
+
+          if (res.data.likes == 0){
+            likesNumber.textContent = "no likes"
+          } else if (res.data.likes == 1){
+            likesNumber.textContent = "1 like"
+          }else {
+            likesNumber.textContent = `${res.data.likes} likes`
+          }
+        }catch(err){
+          console.log(err)
+        }
+    })
+})
+    </script>
+  </body>
+</html>

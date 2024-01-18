@@ -1,0 +1,417 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+
+    <main class="relative">
+      <section class="flex">
+        {% include 'base/sidebar.html' %}
+        <div class="flex-1 flex ms-64 w-full" id="profile">
+            <div class="px-20 py-12 w-full">
+                <div class="header">
+                    <div class="flex items-center space-x-24">
+                        <div class="w-[150px] h-[150px] border-2 border-red-500 p-1 rounded-full">
+                            <!-- <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full"> -->
+                            <img src="{{user_profile.profile_img.url}}" alt="" class="h-full w-full rounded-full object-cover">
+                        </div>
+                        <div>
+                            <div class="flex flex-row items-center space-x-6">
+                                <span class="text-xl font-semibold">@{{user_profile.user.username}}</span>
+                                <div class="space-x-2">
+                                    {% if request.user != user_profile.user %}
+                                    <button  class="{% if user_profile.user.username in followers %}bg-[#555555] {% else %} bg-blue-500 {% endif %} px-6 py-2 rounded-lg" id="follow" data-followed="{{user_profile.user.username}}">
+                                        <span id="follow-text" class="font-semibold">{%if user_profile.user.username in followers%}Unfollow {% else %}Follow {% endif %}</span>
+                                        <!-- <i class="fa-solid fa-chevron-down" style="color: white; font-size: 16px;"></i> -->
+                                    </button>
+                                    {% endif %}
+                                    <button class="bg-[#555555] px-6 py-2 rounded-lg">
+                                        <span>Message</span>
+                                    </button>
+
+                                </div>
+                                <!-- <a id="openModalButton" hx-get="{% url 'profile_modal' %}" hx-target="#modal-content"  class="h-8 w-8 bg-red-500">
+                                    <i class="fa-solid fa-ellipsis" style="color: white; font-size: 20px;"></i>
+                                </a> -->
+                                {% if request.user == user_profile.user %}
+                                <button id="openUpdateProfileModalButton" hx-get="{% url 'profile_modal' %}" hx-target="#updateProfileModal">Update Profile</button>
+                                {% endif %}
+                                <!-- <button hx-get="/clicked" hx-swap="outerHTML">
+                                    Click Me
+                                  </button> -->
+
+                            </div>
+                            <div class="flex items-center space-x-10 mt-6">
+                                {% if posts|length == 0 %}
+                                <span class="text-lg font-semibold">no posts</span>
+                                {% elif posts|length == 1 %}
+                                <span class="text-lg font-semibold">1 post</span>
+                                {% else %}
+                                <span class="text-lg font-semibold">{{posts|length}} posts</span>
+                                {% endif %}
+                                <!-- <span class="text-lg font-semibold">340k followers</span> -->
+                                {% if followers|length == 0 %}
+                                <span id="followers" class="text-lg font-semibold">no followers</span>
+                                {% elif followers|length == 1 %}
+                                <span id="followers" class="text-lg font-semibold">1 follower</span>
+                                {% else %}
+                                <span id="followers" class="text-lg font-semibold">{{followers|length}} followers</span>
+                                {% endif %}
+
+                                {% if followings|length == 0 %}
+                                <span  class="text-lg font-semibold">no followings</span>
+                                {% elif followings|length == 1 %}
+                                <span  class="text-lg font-semibold">1 following</span>
+                                {% else %}
+                                <span  class="text-lg font-semibold">{{followings|length}} followings</span>
+                                {% endif %}
+
+<!--                                
+                                <span class="text-lg font-semibold">{{followings|length}} following</span> -->
+                            </div>
+                            <p class="text-lg my-4 font-semibold">{{user_profile.full_name}}</p>
+                            <p class="text-md">{{user_profile.bio}}</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="stories flex space-x-8 my-16 px-10">
+                    <div class="flex flex-col items-center">
+                        <div class="w-[100px] h-[100px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[100px] h-[100px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[100px] h-[100px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[100px] h-[100px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-[100px] h-[100px] border-2 border-red-500 p-1 rounded-full">
+                            <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full rounded-full">
+                        </div>
+                        <p class="" style="font-size: 14px;">The best</p>
+                    </div>
+                  
+                    
+                </div>
+                <div class="main w-full">
+                    <div class="nav-titles border-t border-gray-900 flex justify-center items-center space-x-8 w-full">
+                        <div class="border-t border-white py-4">
+                            <i class="fa-solid fa-table-cells" style="color: white; font-size: 16;"></i>
+                            <span class="text-base">
+                                POSTS
+                            </span>
+                        </div>
+                        <div class="py-4">
+                            <i class="fa-solid fa-clapperboard" style="color: white; font-size: 16px;"></i>
+                            <span class="text-base">
+                                REELS
+                            </span>
+                        </div>
+                        <div class="py-4">
+                            <i class="fa-solid fa-user-tag" style="color: white; font-size: 16px;"></i>
+                            <span class="text-base">
+                                TAGGED
+                            </span>
+                        </div>
+                    
+
+                    </div>
+                    <div class="main-content mt-3">
+                        <div class="grid grid-cols-3 gap-1">
+                            {% for post in posts %}
+                            <div class=" aspect-square">
+                              <img src="{{post.postImg.url}}" alt="Image 1" class=" w-full h-full object-cover">
+                            </div>
+                            {% endfor %}
+                            <!-- <div class="aspect-square">
+                              <img src="{% static '/images/travel-6.jpg' %}" alt="Image 2" class=" w-full h-full object-cover">
+                            </div>
+                            <div class="aspect-square">
+                              <img src="{% static '/images/travel-6.jpg' %}" alt="Image 3" class=" w-full h-full object-cover">
+                            </div>
+                            <div class="aspect-square">
+                                <img src="{% static '/images/travel-6.jpg' %}" alt="Image 2" class=" w-full h-full object-cover">
+                              </div>
+                              <div class="aspect-square">
+                                <img src="{% static '/images/travel-6.jpg' %}" alt="Image 3" class=" w-full h-full object-cover">
+                              </div> -->
+                            
+                          </div>
+                          
+
+                    </div>
+
+                </div>
+            </div>
+          
+          
+        </div>
+      </section>
+      <!-- <div class="modal-post absolute top-0 left-0 w-full h-screen flex justify-center items-center">
+        <div class="w-[80%] h-[85%] flex">
+            <div class="basis-1/2">
+                <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-full w-full object-cover">
+            </div>
+            <div class="basis-1/2 bg-black relative flex flex-col">
+                <div class="border-b border-[#555555] flex justify-between items-center p-3">
+                    <div class="flex items-center space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <span class="font-semibold">jonathan_ross</span>
+                        <div class="w-[5px] h-[5px] bg-white rounded-full"></div>
+                        <span class=" font-semibold text-blue-400">Follow</span>
+                    </div>
+                    <i class="fa-solid fa-ellipsis" style="color: white; font-size: 20px;"></i>
+
+                </div>
+                <div class="comments p-3 space-y-6 h-full overflow-y-auto mb-[180px]">
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div><div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+                    <div class=" flex justify-between space-x-2">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="" class="h-[40px] w-[40px] rounded-full me-3">
+                        <div class="flex-1"> 
+                            <p class=" leading-tight">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis neque distinctio molestiae obcaecati placeat in!</p>
+                            <div class="flex items-center space-x-3 text-gray-500">
+                                <span class="text-sm">21h</span>
+                                <span class="text-sm">5 likes</span>
+                                <span class="text-sm">Reply</span>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-heart" style="color: white; font-size: 20px;"></i>
+                    </div>
+
+                </div>
+                
+                <div class="add-comment absolute bottom-0 right-0 w-full z-10 bg-black min-h-[180px] border-t border-[#555555]">
+                    <div class=" p-4">
+                        <div class="flex justify-between items-center ">
+                            <div class="flex space-x-5">
+                                <i class="fa-regular fa-heart" style="color: white; font-size: 24px;"></i>
+                                <i class="fa-regular fa-comment" style="color: white; font-size: 24px;"></i>
+                                <i class="fa-regular fa-share-from-square" style="color: white; font-size: 24px;"></i>
+                            </div>
+                            <span>
+                                <i class="fa-regular fa-bookmark" style="color: white; font-size: 24px;"></i>
+                            </span>
+                            
+                        </div>
+                        <div >
+                            <p class="mt-3">120,075 likes</p>
+                            <p class="text-sm text-gray-500">1 DAY AGO</p>
+                        </div>
+                    </div>
+
+                    <div class="add-comment flex p-4 border-t border-[#555555] ">
+                        <i class="fa-regular fa-face-smile" style="color: white; font-size: 24px;"></i>
+                        <input type="text" placeholder="Add a comment..." class="mx-3 flex-1 bg-inherit border-none outline-none">
+                        <span class="font-bold text-gray-500">Post</span>
+    
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div> -->
+      
+      
+     
+      <div id="updateProfileModal"   >
+    </div>
+    {% include 'base/addPost.html' %}
+      
+    </main>
+
+    <script>
+        const follow = document.querySelector("#follow")
+        const followersCount = document.getElementById("followers")
+        const follow_text = document.querySelector("#follow-text")
+        // follow.addEventListener("click", () => {
+        //   console.log("clicked")
+        // })
+
+        follow.addEventListener("click", async() => {
+            console.log("clicked>>>>>")
+            const followed = follow.getAttribute("data-followed")
+            try{
+                const res = await axios.get(`/follow-user?followed_user=${followed}`)
+                console.log(res.data, "follow")
+
+                if(!res.data.login){
+                    window.location.href = '/login';
+                    return
+                }
+
+                if(res.data.following){
+                    follow_text.textContent= "Unfollow"
+                    follow.classList.remove("bg-blue-500")
+                    follow.classList.add("bg-[#555555]")
+                    // followersCount.textContent = res.data.followers_count?.length
+                }else{
+                    follow_text.textContent= "Follow"
+                    follow.classList.remove("bg-[#555555]")
+                    follow.classList.add("bg-blue-500")
+                    // followersCount.textContent = res.data.followers_count?.length
+                }
+                if (res.data.followers_count == 0){
+                    followersCount.textContent = "no followers"
+                } else if (res.data.followers_count == 1){
+                    followersCount.textContent = "1 follower"
+                }else {
+                    followersCount.textContent = `${res.data.followers_count.length} followers`
+                }
+                //followersCount.textContent = res.data.followers_count?.length 
+
+            }catch(err){
+                console.log(err)
+            }
+        })
+      </script>
+   
+  {% endblock %}
+
+ 

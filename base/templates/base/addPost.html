@@ -1,0 +1,41 @@
+{% load static %}
+<div class="modal-profile fixed top-0 left-0 w-full h-screen flex justify-center items-center bg-black/50 hidden" id="create-post">
+    <div class="w-[70%] h-[55%] bg-[#2a2b2b] rounded-[20px] ">
+        <form action="{% url 'upload_post' %}" method="POST" enctype="multipart/form-data" class="flex flex-col h-full">
+            {% csrf_token %}
+
+            <div class="border-b border-gray-700 p-2 relative">
+                <h4 class="text-center">Create Post</h4>
+                <button type="submit" class="text-blue-400 font-bold absolute right-4 top-0 bottom-0 my-auto">Share</button>
+                
+            </div>
+            <div class="flex flex-1">
+               
+                <div class="content flex items-center justify-center basis-1/2 relative p-2">
+                    <img class="absolute top-0 left-0 w-full h-full hidden object-cover z-20" id="post-img" src="" alt="" >
+                    <input type="file" name="post-upload" id="post-upload" class="hidden">
+                    <label for="post-upload">
+                        <div class="px-4 py-2 rounded-xl bg-blue-400  font-bold mt">Select from your computer</div>
+
+                    </label>
+                </div>
+           
+                <div class="basis-1/2 border-l border-gray-700 flex flex-col justify-between p-2 space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <img src="{{request.user.profile.profile_img.url}}" alt="" class="h-[40px] w-[40px] rounded-full me-3 object-cover">
+                        <span class="font-semibold">{{request.user.username}}</span>
+                       
+                    </div>
+                    <div class=" flex flex-col flex-1">
+                        <textarea placeholder="Add caption..." name="desc" id=""  class="h-full w-full p-2 bg-inherit"></textarea>
+                        <textarea placeholder="Add tag, initialized by by # e.g #post #new_post" name="tags" id=""  class="h-16 w-full p-2 bg-inherit border-t border-gray-700"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        
+       
+       
+    </div>
+  </div>
