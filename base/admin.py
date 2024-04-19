@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Post, Follow, Tag
+from .models import Profile, Follow
 
 admin.site.register(Profile)
-admin.site.register(Post)
 admin.site.register(Follow)
-admin.site.register(Tag)

@@ -113,7 +113,7 @@
                         </div>
                         <div id="add-comment" data-postId="{{ post.id }}" class=" w-100 mt-3 pb-5">
                             <div id="comment-list" class="comment-list max-h-[100px] overflow-y-auto scroller space-y-3">
-                                {% for comment in post.comment.all %}
+                                {% for comment in post.comments.all %}
                                 <div class="flex items-start space-x-2">
                           
                                     <img src="{{comment.user.profile.profile_img.url}}" alt="" class="h-[40px] w-[40px] rounded-full">

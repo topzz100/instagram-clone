@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'base',
-    'comments'
+    'comments',
+    'posts'
 ]
 
 MIDDLEWARE = [

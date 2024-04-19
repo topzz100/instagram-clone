@@ -94,7 +94,7 @@
       const postId = like.getAttribute("data-postId")
       const likesNumber = document.getElementById(`likes-no-${postId}`)
         try{
-          const res = await axios.get(`like-post?post_id=${postId}`)
+          const res = await axios.get(`posts/like-post?post_id=${postId}`)
 
           console.log(res.data)
 

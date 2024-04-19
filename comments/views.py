@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from .models import Comment
-from base.models import Post
+from posts.models import Post
 import json
 from django.contrib.humanize.templatetags.humanize import naturaltime
 

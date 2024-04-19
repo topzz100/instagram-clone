@@ -1,0 +1,53 @@
+{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<main>
+    <section class="flex">
+        {% include 'base/sidebar.html' %}
+        <div class="flex-1 flex ms-64 w-full" id="profile">
+            <div class="px-20 py-12 w-full">
+                <div class="grid grid-cols-3 gap-1">
+                    {% for post in posts %}
+                    <div class="aspect-square"  id="view-post">
+                        <img src="{% static '/images/travel-6.jpg' %}" alt="Image 2" class=" w-full h-full object-cover">
+                    </div>
+                    {% include 'base/post.html' %}
+                    {% endfor %} 
+                </div>
+
+            </div>
+        </div>
+        
+     
+
+    </section>
+</main>
+<script>
+    const viewPost = document.getElementById("view-post")
+    const postModal = document.getElementById("post-modal")
+
+    viewPost.addEventListener('click', () => {
+        console.log(postModal);
+        console.log("viewPost")
+        postModal.classList.toggle('hidden');
+    })
+    // window.onclick = function(event) {
+   
+    //     if (event.target == postModal) {
+    //         console.log("clicked")
+    //         postModal.classList.add('hidden');
+        
+    //     }
+    // }
+    window.addEventListener('click', () => {
+        if (event.target == postModal) {
+            postModal.classList.add('hidden')
+
+        }
+    })
+</script>
+
+
+{% endblock %}

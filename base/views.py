@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import Profile, Post, LikePost, Follow, Tag
+from .models import Profile, Follow
+from posts.models import Post, LikePost, Tag
 from .forms import SignUpForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from uuid import UUID
@@ -358,3 +359,7 @@ def homepage(request):
     #     if post.id in liked_posts_id:
     #         print(post.id)
     return render(request, 'base/home.html', {"profiles": profiles, "posts": posts, 'liked_posts': liked_posts_id})
+
+def explore(request):
+    posts = Post.objects.all().order_by('-created_at')
+    return render(request, 'base/explore.html', {"posts": posts})
